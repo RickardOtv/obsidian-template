@@ -24,7 +24,7 @@ A ready-to-use Obsidian vault with a dashboard homepage, tasks, quick capture, a
 ## 2. Install the theme
 
 Settings → Appearance → Themes → **Manage** → install **Minimal** → select it.
-Then Appearance → CSS snippets → enable `dashboard` and `theme-blue`.
+Then Appearance → CSS snippets → enable `dashboard` and `theme-blue` (or any preferred theme).
 
 ## 3. Install the plugins
 
