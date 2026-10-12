@@ -1,0 +1,64 @@
+/* Icy-blue dark theme, matches the dashboard */
+.theme-dark {
+  --bg1: #0b0f17;
+  --bg2: #090c13;
+  --bg3: #141c2a;
+  --ui1: #1b2536;
+  --ui2: #243249;
+  --ui3: #2e3f5c;
+  --tx1: #e6ecf5;
+  --tx2: #9aa9bb;
+  --tx3: #6b7a8f;
+  --ax1: #8fb8e8;
+  --ax2: #b4d0f0;
+  --ax3: #8fb8e8;
+  --hl1: rgba(143, 184, 232, 0.28);
+
+  --background-primary: #0b0f17;
+  --background-primary-alt: #101722;
+  --background-secondary: #090c13;
+  --background-secondary-alt: #0d121b;
+  --background-modifier-border: #1b2536;
+  --background-modifier-hover: rgba(143, 184, 232, 0.1);
+  --interactive-accent: #8fb8e8;
+  --interactive-accent-hover: #b4d0f0;
+  --text-accent: #8fb8e8;
+  --text-accent-hover: #b4d0f0;
+  --text-on-accent: #08101c;
+  --text-selection: rgba(143, 184, 232, 0.28);
+  --link-color: #8fb8e8;
+  --link-external-color: #7dd3c8;
+  --tag-color: #7dd3c8;
+  --tag-background: rgba(125, 211, 200, 0.12);
+
+  --h1-color: #e6ecf5;
+  --h2-color: #b4d0f0;
+  --h3-color: #8fb8e8;
+  --h4-color: #7dd3c8;
+  --h5-color: #9aa9bb;
+  --h6-color: #6b7a8f;
+
+  --graph-line: #243249;
+  --graph-node: #8fb8e8;
+  --graph-node-focused: #ffffff;
+  --graph-node-tag: #7dd3c8;
+  --graph-node-attachment: #e9c46a;
+  --graph-node-unresolved: #4a5a73;
+  --graph-text: #b4d0f0;
+}
+
+.theme-dark .workspace-ribbon,
+.theme-dark .workspace-tabs,
+.theme-dark .mod-left-split,
+.theme-dark .mod-right-split { background: #090c13; }
+
+.theme-dark .workspace-leaf-content[data-type="graph"] .view-content {
+  background: radial-gradient(ellipse at 50% 40%, #121c2e, #070a10);
+}
+
+.theme-dark ::selection { background: rgba(143, 184, 232, 0.3); }
+.theme-dark .checkbox-container.is-enabled,
+.theme-dark input[type="checkbox"]:checked { background-color: #8fb8e8; }
+
+.theme-dark .workspace-tab-header.is-active,
+.theme-dark .nav-file-title.is-active { color: #b4d0f0; }

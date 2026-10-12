@@ -1,0 +1,20 @@
+.DS_Store
+
+# Obsidian per-machine state
+.obsidian/workspace.json
+.obsidian/workspaces.json
+.obsidian/cache
+
+# Plugin code is installed from the community plugin browser; only settings are tracked
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/manifest.json
+.obsidian/plugins/*/styles.css
+.obsidian/themes/
+
+# Plugins that may store keys or embeddings
+.obsidian/plugins/smart-*/
+.smart-env/
+
+# Local secrets
+.env
+*.token

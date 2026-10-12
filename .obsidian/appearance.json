@@ -1,0 +1,8 @@
+{
+  "enabledCssSnippets": [
+    "dashboard",
+    "theme-blue"
+  ],
+  "theme": "obsidian",
+  "cssTheme": "Minimal"
+}

@@ -1,0 +1,11 @@
+{
+  "templater-obsidian:Templates/Quick note.md": [
+    { "modifiers": ["Mod", "Alt"], "key": "Q" }
+  ],
+  "app:toggle-left-sidebar": [
+    { "modifiers": ["Mod"], "key": "\\" }
+  ],
+  "app:toggle-right-sidebar": [
+    { "modifiers": ["Mod", "Shift"], "key": "\\" }
+  ]
+}
