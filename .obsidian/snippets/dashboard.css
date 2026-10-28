@@ -177,20 +177,23 @@ a.cal-day { cursor: pointer; }
 .dashboard .block-language-dataviewjs { margin: 0 !important; padding: 0 !important; width: 100% !important; }
 .dash { width: 100%; margin: 0; }
 
-/* Explicit placement: cal | tasks | jira  /  quick | recent | links */
-.dash .cal { grid-column: 1; grid-row: 2 / span 8; }
-.dash .tasks { grid-column: 2; grid-row: 2 / span 5; }
-.dash .recent { grid-column: 2; grid-row: 7 / span 3; }
+/* Explicit placement: cal+recent | prs+tasks | jira+quick */
+.dash .cal { grid-column: 1; grid-row: 2 / span 5; }
+.dash .recent { grid-column: 1; grid-row: 7 / span 3; }
+.dash .prs { grid-column: 2; grid-row: 2 / span 3; }
+.dash .tasks { grid-column: 2; grid-row: 5 / span 5; }
 .dash .jira { grid-column: 3; grid-row: 2 / span 3; }
 .dash .quick { grid-column: 3; grid-row: 5 / span 5; }
 
+.dash-hero { position: relative; }
+.dash .hero-refresh { position: absolute; right: 8px; bottom: 8px; font-size: 1.2em; padding: 4px 14px; }
 .hero-links { grid-column: 1; grid-row: 3; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 6px; }
 .hero-sep { width: 1px; height: 14px; background: var(--line); margin: 0 6px; }
 .task-add { display: flex; gap: 6px; margin-bottom: 6px; }
 .task-input { flex: 1; min-width: 0; }
 .task-date { width: 118px; }
 .dash .row.task { display: flex; align-items: center; gap: 8px; }
-.dash .row.task .task-text { flex: 1; min-width: 0; }
+.dash .row.task .task-text { flex: 1; min-width: 0; cursor: pointer; }
 .dash .row.task .chip { flex: none; }
 .dash .row.task.high .task-text { font-weight: 600; }
 .dash .row.task.done { opacity: .35; text-decoration: line-through; }
@@ -206,18 +209,20 @@ a.cal-day { cursor: pointer; }
   .dash { grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(170px, 0.5fr); }
   .dash-hero { grid-column: 1 / span 4; }
   .dash-side { display: block; grid-column: 5; grid-row: 1 / -1; }
-  .dash .cal { grid-column: 1; grid-row: 2 / span 8; }
-  .dash .tasks { grid-column: 2; grid-row: 2 / span 8; }
-  .dash .jira { grid-column: 3; grid-row: 2 / span 3; }
-  .dash .quick { grid-column: 3; grid-row: 5 / span 5; }
-  .dash .recent { grid-column: 4; grid-row: 2 / span 8; }
+  .dash .cal { grid-column: 1; grid-row: 2 / span 5; }
+  .dash .recent { grid-column: 1; grid-row: 7 / span 3; }
+  .dash .prs { grid-column: 2; grid-row: 2 / span 3; }
+  .dash .tasks { grid-column: 2; grid-row: 5 / span 5; }
+  .dash .jira { grid-column: 3; grid-row: 2 / span 8; }
+  .dash .quick { grid-column: 4; grid-row: 2 / span 8; }
 }
 
 @container (max-width: 800px) {
-  .dash { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: clamp(110px, 20%, 180px) repeat(3, minmax(0, 1fr)); }
+  .dash { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: clamp(110px, 20%, 180px) repeat(4, minmax(0, 1fr)); }
   .dash .cal { grid-column: 1; grid-row: 2 / span 2; }
-  .dash .tasks { grid-column: 2; grid-row: 2; }
-  .dash .recent { grid-column: 2; grid-row: 3; }
-  .dash .jira { grid-column: 1; grid-row: 4; }
+  .dash .prs { grid-column: 2; grid-row: 2; }
+  .dash .tasks { grid-column: 2; grid-row: 3; }
+  .dash .recent { grid-column: 1; grid-row: 4; }
   .dash .quick { grid-column: 2; grid-row: 4; }
+  .dash .jira { grid-column: 1 / span 2; grid-row: 5; }
 }

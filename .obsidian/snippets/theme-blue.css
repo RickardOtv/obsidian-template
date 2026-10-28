@@ -62,3 +62,56 @@
 
 .theme-dark .workspace-tab-header.is-active,
 .theme-dark .nav-file-title.is-active { color: #b4d0f0; }
+
+/* Title bar, tab strip and top-left corner */
+body.theme-dark {
+  --titlebar-background: #090c13;
+  --titlebar-background-focused: #090c13;
+  --frame-background: #090c13;
+  --tab-container-background: #090c13;
+  --ribbon-background: #090c13;
+  --ribbon-background-collapsed: #090c13;
+}
+
+.theme-dark .titlebar,
+.theme-dark .titlebar-inner,
+.theme-dark .titlebar-button-container,
+.theme-dark .workspace-tab-header-container,
+.theme-dark .workspace-tab-header-container-inner,
+.theme-dark .mod-root .workspace-tab-header-container,
+.theme-dark .workspace-split.mod-left-split .workspace-tab-header-container,
+.theme-dark .workspace-drawer-header,
+.theme-dark .sidebar-toggle-button { background: #090c13 !important; }
+
+/* Top-left corner above/beside the left sidebar */
+.theme-dark .workspace-ribbon.mod-left,
+.theme-dark .workspace-ribbon.mod-left::before,
+.theme-dark .workspace-ribbon.mod-left.is-collapsed,
+.theme-dark .workspace-ribbon.mod-left.is-collapsed::before,
+.theme-dark .workspace-ribbon.mod-left .side-dock-actions,
+.theme-dark .workspace-ribbon.mod-left .side-dock-settings,
+.theme-dark .workspace-split.mod-left-split,
+.theme-dark .workspace-split.mod-left-split .workspace-tabs,
+.theme-dark .workspace-split.mod-left-split .workspace-tab-header-container,
+.theme-dark .workspace-ribbon.mod-left ~ .mod-left-split { background: #090c13 !important; }
+
+.theme-dark .workspace-ribbon.mod-left,
+.theme-dark .workspace-ribbon.mod-left::before { border-color: #243249 !important; }
+
+/* Catch-all for remaining grey frame areas */
+body.theme-dark,
+.theme-dark .app-container,
+.theme-dark .horizontal-main-container,
+.theme-dark .workspace,
+.theme-dark .titlebar-button-container.mod-left,
+.theme-dark .titlebar-button-container.mod-right,
+.theme-dark .workspace-ribbon::before,
+.theme-dark .workspace-ribbon::after,
+.theme-dark .workspace-sidedock-vault-profile { background-color: #090c13 !important; }
+
+body.theme-dark {
+  --background-secondary: #090c13;
+  --tab-container-background: #090c13;
+  --tab-outline-color: #243249;
+  --divider-color: #243249;
+}

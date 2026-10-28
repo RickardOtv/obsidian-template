@@ -4,11 +4,11 @@ A ready-to-use Obsidian vault with a dashboard homepage, tasks, quick capture, a
 
 ## What you get
 
-- **Dashboard** (homepage): calendar, tasks (add/complete inline), Jira issues, quick notes, recently modified notes
+- **Dashboard** (homepage): calendar, tasks (add/complete inline, click to jump to the line), Jira issues, GitHub PRs, quick notes, recently modified notes
 - **Quick note** hotkey `⌥ ⌘ Q` → appended to `Quick notes.md`
 - **Reminders/**: dated notes (`DD-MM-YYYY.md`) show as events on the dashboard calendar
 - Minimal theme + blue CSS snippet (optional background image, see section 4)
-- Optional: Jira refresh, stand-up/refinement notes, Git backup
+- Optional: Jira and GitHub PR refresh, stand-up/refinement notes, Git backup
 
 ## 1. Install
 
@@ -90,9 +90,30 @@ Requirements: macOS/Linux with `zsh`, `curl` and `python3`.
    Scripts/refresh-jira.sh
    ```
    `Jira.md` should now list your open issues.
-4. Use the **↻** button on the dashboard's Jira card to refresh. Obsidian must have been started with access to your shell environment; since the script sources `~/.zshrc` this works when launched normally.
+4. Use the **↻** button in the dashboard header to refresh. Obsidian must have been started with access to your shell environment; since the script sources `~/.zshrc` this works when launched normally.
 
 To change which issues are shown, edit the `jql=` line in `Scripts/refresh-jira.sh`.
+
+## 5b. Optional: GitHub pull requests
+
+Skip this if you don't use GitHub; the dashboard card then just shows a hint.
+
+1. Create a personal access token with read access to pull requests and repository metadata (add `repo` scope for private repos).
+2. Add to `~/.zshrc` (never commit it):
+   ```bash
+   export GITHUB_TOKEN="your-token"
+   # GitHub Enterprise only:
+   # export GITHUB_API_URL="https://github.example.com/api/v3"
+   ```
+3. Test it:
+   ```bash
+   chmod +x Scripts/refresh-prs.sh
+   Scripts/refresh-prs.sh
+   ```
+   `Pull requests.md` should now list your open PRs with review and CI status.
+4. The **↻** button in the dashboard header refreshes both Jira and PRs.
+
+To change which PRs are shown, edit the `q=` line in `Scripts/refresh-prs.sh`.
 
 ## 6. Optional: stand-ups and refinements
 
@@ -112,6 +133,10 @@ Not every team has these. To enable them:
    ```
 
 Each button creates today's note in that folder and the template fills it in. Rename folders freely, just keep CONFIG and Templater in sync.
+
+**Meetings:** move `Templates/Optional/Meeting.md` to `Templates/` and `Templates/Optional/Meetings.md` to a new `Meetings/` folder. Run the template from the command palette (*Templater: Open insert template modal*).
+
+**AI cleanup:** `AGENTS.md` (also loaded by `CLAUDE.md`) describes the vault conventions and a `/cleanup` routine for AI agents (Claude Code command in `.claude/`, Copilot skill in `.github/skills/`). Adjust its structure table if you rename folders.
 
 ## 7. Optional: Git backup (Obsidian Git plugin)
 

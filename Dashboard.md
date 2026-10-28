@@ -71,8 +71,12 @@ const jiraRaw = (await dv.io.load("Jira.md")) ?? "";
 const jira = [...jiraRaw.matchAll(/\|\s*\[([^\]]+)\]\(([^)]+)\)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|/g)]
   .map(m => ({ key: m[1], url: m[2], title: m[3], status: m[4] }));
 const jiraUpdated = jiraRaw.match(/Updated ([^–*]+?)\s*[–-]/)?.[1];
+const prRaw = (await dv.io.load("Pull requests.md")) ?? "";
+const prs = [...prRaw.matchAll(/\|\s*\[([^\]]+)\]\(([^)]+)\)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|/g)]
+  .map(m => ({ title: m[1], url: m[2], repo: m[3], status: m[4] }));
+const prUpdated = prRaw.match(/Updated ([^–*]+?)\s*[–-]/)?.[1];
 const recent = dv.pages()
-  .where(p => !["Dashboard", "Quick notes", "Jira", "Upcoming"].includes(p.file.name))
+  .where(p => !["Dashboard", "Quick notes", "Jira", "Pull requests", "Upcoming"].includes(p.file.name))
   .sort(p => p.file.mtime, "desc").limit(8).array();
 const reminderNotes = new Map(dv.pages('"Reminders"').map(p => [p.file.name, p.file.path]));
 
@@ -84,12 +88,23 @@ const hero = el(dash, "div", "dash-hero");
 const hour = now.hour;
 el(hero, "div", "dash-hello", `${hour < 10 ? "Good morning" : hour < 17 ? "Hello" : "Good evening"}${CONFIG.name ? ", " + CONFIG.name : ""}`);
 el(hero, "div", "dash-date", now.toFormat("cccc d LLLL yyyy"));
+const refreshBtn = el(hero, "button", "qn-btn hero-refresh", "↻");
+refreshBtn.title = "Refresh Jira and pull requests";
+refreshBtn.onclick = () => {
+  refreshBtn.textContent = "…";
+  refreshBtn.disabled = true;
+  const run = name => new Promise(res => window.require("child_process").execFile("/bin/zsh", [app.vault.adapter.getFullPath(`Scripts/${name}`)], err => res(!err)));
+  Promise.all([run("refresh-jira.sh"), run("refresh-prs.sh")]).then(results => {
+    refreshBtn.textContent = results.every(Boolean) ? "✓" : "✗";
+    setTimeout(() => app.workspace.activeLeaf?.view?.previewMode?.rerender(true), 1500);
+  });
+};
 const heroLinks = el(hero, "div", "hero-links");
 for (const [path, label] of CONFIG.quickLinks) {
   internal(heroLinks, path, label, "chip-link");
 }
 const stats = el(hero, "div", "dash-stats");
-for (const [n, label, warn] of [[tasks.length, "open tasks"], [overdue, "overdue", overdue > 0], [jira.length, "Jira issues"], [upcomingEvents.length, "events"]]) {
+for (const [n, label, warn] of [[tasks.length, "open tasks"], [overdue, "overdue", overdue > 0], [jira.length, "Jira issues"], [prs.length, "open PRs"], [upcomingEvents.length, "events"]]) {
   const s = el(stats, "div", "dash-stat" + (warn ? " warn" : ""));
   el(s, "span", "", String(n));
   s.appendText(label);
@@ -153,9 +168,12 @@ for (const t of tasks.slice(0, 15)) {
     row.addClass("done");
   };
   const label = el(row, "a", "task-text");
-  label.addClass("internal-link");
-  label.setAttr("data-href", t.path);
-  label.setAttr("href", t.path);
+  label.setAttr("title", t.text);
+  label.onclick = async ev => {
+    ev.preventDefault();
+    const file = app.vault.getAbstractFileByPath(t.path);
+    await app.workspace.getLeaf(false).openFile(file, { eState: { line: t.line } });
+  };
   rich(label, t.text);
   if (t.due) {
     const when = dv.date(t.due);
@@ -167,21 +185,20 @@ for (const t of tasks.slice(0, 15)) {
 
 // Jira
 const jr = card(dash, `🎫 Jira${jiraUpdated ? " · " + jiraUpdated.trim() : ""}`, "jira");
-const jrBtn = el(jr.parentElement.querySelector("h3"), "button", "qn-btn", "↻");
-jrBtn.onclick = () => {
-  jrBtn.textContent = "…";
-  jrBtn.disabled = true;
-  const script = app.vault.adapter.getFullPath("Scripts/refresh-jira.sh");
-  window.require("child_process").execFile("/bin/zsh", [script], err => {
-    jrBtn.textContent = err ? "✗" : "✓";
-    setTimeout(() => app.workspace.activeLeaf?.view?.previewMode?.rerender(true), 1500);
-  });
-};
 if (!jira.length) el(jr, "div", "dash-empty", "No issues. Jira is optional - see README.md");
 for (const j of jira.slice(0, 10)) {
   const row = el(jr, "div", "row");
   row.createEl("a", { text: `${j.key} ${j.title}`, attr: { href: j.url } });
   el(row, "span", "chip", j.status);
+}
+
+// Pull requests
+const pr = card(dash, `🔀 My PRs${prUpdated ? " · " + prUpdated.trim() : ""}`, "prs");
+if (!prs.length) el(pr, "div", "dash-empty", "No open PRs. GitHub is optional - see README.md");
+for (const p of prs.slice(0, 10)) {
+  const row = el(pr, "div", "row");
+  row.createEl("a", { text: p.title, attr: { href: p.url } });
+  el(row, "span", "chip", p.status);
 }
 
 // Quick notes
